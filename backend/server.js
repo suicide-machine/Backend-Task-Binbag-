@@ -1,5 +1,6 @@
 import app from "./app.js"
 import dotenv from "dotenv"
+import connectDatabase from "./db/database.js"
 
 dotenv.config({
   path: "config/.env",
@@ -10,6 +11,9 @@ process.on("uncaughtException", (err) => {
   console.log(`Error: ${err.message}`)
   console.log(`Shutting down the server for handling uncaught exception`)
 })
+
+// connect db
+connectDatabase()
 
 // create server
 const server = app.listen(process.env.PORT, () => {
