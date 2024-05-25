@@ -35,6 +35,7 @@ export const newOrder = CatchAsyncErrors(async (req, res, next) => {
   })
 })
 
+// get all orders of a user
 export const myOrder = CatchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find({ user: req.user._id })
 
@@ -44,6 +45,7 @@ export const myOrder = CatchAsyncErrors(async (req, res, next) => {
   })
 })
 
+// get single order
 export const getSingleOrder = CatchAsyncErrors(async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id).populate(
@@ -64,6 +66,7 @@ export const getSingleOrder = CatchAsyncErrors(async (req, res, next) => {
   }
 })
 
+// get all orders by admin
 export const getAllOrdersByAdmin = CatchAsyncErrors(async (req, res, next) => {
   try {
     const orders = await Order.find()
@@ -84,6 +87,7 @@ export const getAllOrdersByAdmin = CatchAsyncErrors(async (req, res, next) => {
   }
 })
 
+// Update order status by admin
 export const updateOrderByAdmin = CatchAsyncErrors(async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id)
@@ -93,6 +97,9 @@ export const updateOrderByAdmin = CatchAsyncErrors(async (req, res, next) => {
     if (!order) {
       return next(new ErrorHandler("Order not found with this id", 400))
     }
+
+    order.orderStatus = req.body.orderStatus
+
     if (req.body.orderStatus.trackingStatus === "in transit") {
       order.orderItems.forEach(async (o) => {
         await updateOrder(o.product, o.quantity)
@@ -101,6 +108,7 @@ export const updateOrderByAdmin = CatchAsyncErrors(async (req, res, next) => {
       order.inTransitAt = Date.now()
 
       const timeStamp = new Date(order.inTransitAt)
+
       const orderCurrentLocation = order.orderStatus.location
 
       // console.log(orderCurrentLocation)
@@ -126,8 +134,6 @@ export const updateOrderByAdmin = CatchAsyncErrors(async (req, res, next) => {
         message,
       })
     }
-
-    order.orderStatus = req.body.orderStatus
 
     if (req.body.orderStatus.trackingStatus === "delivered") {
       order.deliveredAt = Date.now()
@@ -165,6 +171,8 @@ export const updateOrderByAdmin = CatchAsyncErrors(async (req, res, next) => {
       order,
     })
 
+    // Update the stock and sold_out fields for a product based on the quantity ordered.
+
     async function updateOrder(id, qty) {
       const product = await Product.findById(id)
 
@@ -178,6 +186,7 @@ export const updateOrderByAdmin = CatchAsyncErrors(async (req, res, next) => {
   }
 })
 
+// delete an existing product by admin
 export const deleteOrderByAdmin = CatchAsyncErrors(async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id)

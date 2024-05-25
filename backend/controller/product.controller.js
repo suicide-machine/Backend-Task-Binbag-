@@ -2,6 +2,7 @@ import { CatchAsyncErrors } from "../middleware/catchAsyncErrors.js"
 import Product from "../model/product.model.js"
 import ErrorHandler from "../utils/ErrorHandler.js"
 
+// Create a new product
 export const createProduct = CatchAsyncErrors(async (req, res, next) => {
   try {
     const productData = req.body
@@ -17,6 +18,7 @@ export const createProduct = CatchAsyncErrors(async (req, res, next) => {
   }
 })
 
+// Get All Products
 export const getAllProducts = CatchAsyncErrors(async (req, res, next) => {
   try {
     const products = await Product.find()
@@ -30,6 +32,7 @@ export const getAllProducts = CatchAsyncErrors(async (req, res, next) => {
   }
 })
 
+// Update product information(name, original price, discount price etc)
 export const updateProduct = CatchAsyncErrors(async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id)
@@ -53,6 +56,7 @@ export const updateProduct = CatchAsyncErrors(async (req, res, next) => {
   }
 })
 
+// delete an existing product
 export const deleteProduct = CatchAsyncErrors(async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id)
@@ -72,6 +76,7 @@ export const deleteProduct = CatchAsyncErrors(async (req, res, next) => {
   }
 })
 
+// get all products by admin
 export const getAllProductsByAdmin = CatchAsyncErrors(
   async (req, res, next) => {
     try {

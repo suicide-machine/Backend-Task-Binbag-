@@ -4,6 +4,7 @@ import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { CatchAsyncErrors } from "../middleware/catchAsyncErrors.js"
 
+// register a new user
 export const signup = CatchAsyncErrors(async (req, res, next) => {
   try {
     const { name, email, password } = req.body
@@ -34,6 +35,7 @@ export const signup = CatchAsyncErrors(async (req, res, next) => {
   }
 })
 
+// login user
 export const signin = CatchAsyncErrors(async (req, res, next) => {
   try {
     const { email, password } = req.body
@@ -66,6 +68,7 @@ export const signin = CatchAsyncErrors(async (req, res, next) => {
   }
 })
 
+// logout user
 export const signOut = CatchAsyncErrors(async (req, res, next) => {
   try {
     res

@@ -3,6 +3,7 @@ import User from "../model/user.model.js"
 import ErrorHandler from "../utils/ErrorHandler.js"
 import bcryptjs from "bcryptjs"
 
+// Update user profile
 export const updateUserInfo = CatchAsyncErrors(async (req, res, next) => {
   try {
     const { name, email, phoneNumber, password } = req.body
@@ -27,6 +28,7 @@ export const updateUserInfo = CatchAsyncErrors(async (req, res, next) => {
 
     await user.save()
 
+    // excluding the password when sending user data in a response.
     const { password: pass, ...rest } = user._doc
 
     res.status(200).json({
@@ -38,6 +40,7 @@ export const updateUserInfo = CatchAsyncErrors(async (req, res, next) => {
   }
 })
 
+// delete user profile (can be done by user)
 export const deleteUser = CatchAsyncErrors(async (req, res, next) => {
   try {
     if (req.user.id !== req.params.id)
@@ -62,6 +65,7 @@ export const deleteUser = CatchAsyncErrors(async (req, res, next) => {
   }
 })
 
+// Get User Detail
 export const getUserInfo = CatchAsyncErrors(async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id)
@@ -81,6 +85,7 @@ export const getAllUser = CatchAsyncErrors(async (req, res, next) => {
     const users = await User.find().sort({
       createdAt: -1,
     })
+
     res.status(201).json({
       success: true,
       users,
@@ -90,6 +95,7 @@ export const getAllUser = CatchAsyncErrors(async (req, res, next) => {
   }
 })
 
+// delete user by admin
 export const deleteUserByAdmin = CatchAsyncErrors(async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id)

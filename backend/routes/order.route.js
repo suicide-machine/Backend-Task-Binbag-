@@ -11,10 +11,12 @@ import {
 
 const router = express.Router()
 
+// Order routes for user
 router.post("/new", isAuthenticated, newOrder)
 router.get("/my-order", isAuthenticated, myOrder)
 router.get("/:id", isAuthenticated, getSingleOrder)
 
+// Order routes for admin
 router.get(
   "/admin/orders",
   isAuthenticated,

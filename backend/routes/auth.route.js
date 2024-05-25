@@ -4,6 +4,8 @@ import { isAuthenticated } from "../middleware/auth.js"
 
 const router = express.Router()
 
+// User authentication routes
+
 router.post("/signup", signup)
 router.post("/signin", signin)
 router.get("/signout", isAuthenticated, signOut)

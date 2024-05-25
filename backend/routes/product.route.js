@@ -10,9 +10,11 @@ import {
 
 const router = express.Router()
 
-router.post("/create-product", isAuthenticated, isAdmin("Admin"), createProduct)
-
 router.get("/get-all-products", getAllProducts)
+
+// product routes only accessible by admin
+
+router.post("/create-product", isAuthenticated, isAdmin("Admin"), createProduct)
 
 router.post(
   "/update-product/:id",
