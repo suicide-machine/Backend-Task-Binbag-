@@ -45,7 +45,7 @@ export const deleteUser = CatchAsyncErrors(async (req, res, next) => {
   try {
     if (req.user.id !== req.params.id)
       return next(
-        new ErrorHandler(401, "You can only delete your own account!")
+        new ErrorHandler("You can only delete your own account!", 400)
       )
 
     await User.findByIdAndDelete(req.params.id)

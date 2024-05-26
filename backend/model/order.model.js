@@ -97,7 +97,6 @@ const orderSchema = new mongoose.Schema({
     },
     location: {
       type: String,
-      required: true,
     },
   },
   deliveredAt: Date,
